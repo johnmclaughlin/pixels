@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>pixels</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="scripts/vendor/jquery-2.2.3.min.js"></script>
+  <link rel="stylesheet" href="styles/main.css">
+<script type="text/javascript">
+function motion(event){
+  var dotPosition = ((event.accelerationIncludingGravity.y +10 )*3).toFixed(0);
+  document.getElementById("accelerometer").innerHTML = "y: "
+    + dotPosition;
+    $.get( "process_get", { target: dotPosition } );
+}
+
+function go(){
+  if(window.DeviceMotionEvent){
+    window.addEventListener("devicemotion", motion, false);
+  }else{
+    var status = document.getElementById("status");
+    status.innerHTML = status.innerHTML.replace(
+      "is supported", "is not supported"
+    );
+  }
+
+}
+setInterval(function() { 
+  go();
+}, 100);
+</script>
+</head>
+<body onload="go();">
+<div id="accelerometer"></div>
+</body>
+</html>
